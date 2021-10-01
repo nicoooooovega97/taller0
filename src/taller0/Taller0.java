@@ -137,7 +137,7 @@ public class Taller0 {
     public static void imprimirMenu() {
 	System.out.println("---------------------------menu---------------------------");
 	System.out.println("opciones: (ingrese como RF#)");
-	System.out.println("RF1: iiniciar sesion ");
+	System.out.println("RF1: iniciar sesion ");
         System.out.println("RF2: registrarse al sistema");
 	System.out.println("RF3: Salir");
 	
@@ -171,6 +171,9 @@ public class Taller0 {
         while(!opcion.equals("RF3")){
             switch(opcion){
             case "RF1":
+                /*** method to implement the admin menu with all the workshop requirements
+                 * 
+                 */
                 System.out.print("Ingrese rut: ");
                 s = new Scanner(System.in);
                 String rut = s.nextLine();
@@ -187,10 +190,11 @@ public class Taller0 {
                         case "A":
                             break;
                         case "B":
-                            System.out.print("Ingrese opcion: ");
+                            System.out.print("Ingrese rut de cliente: ");
                             String rutCliente = s.next();
+                            String nRut = formatearRut(rutCliente);
                             for(int k= 0 ;k<numClientes;k++){
-                                if(ruts[k].equals(rutCliente)){
+                                if(ruts[k].equals(nRut)){
                                     System.out.println("----------------SUS DATOS ----------------");
                                     System.out.println("Nonbre: "+ nombres[k]+"\n"+"Apellido: "+apellidos[k]+"\n"+"Saldo: "+saldos[k]);
                                     System.out.println("----------------ENTRADAS COMPRADAS----------------");
@@ -208,7 +212,9 @@ public class Taller0 {
                     }
                 }
                 else{
-                    
+                    /*** method to implement the menu with all the workshop requirements
+                     * 
+                     */
                     for(int i=0;i<numClientes;i++){
                         if(ruts[i].equals(nuevoRut) && contraseñas[i].equals(clave)){
                             imprimirMenuCliente();
@@ -231,12 +237,9 @@ public class Taller0 {
                                     System.out.print("Ingrese nombre de la pelicula: ");
                                     String pe = P.next();
                                     for(int j = 0;j<numPeliculas;j++){
-                                        if(peliculas[j].equals(pe) ){
-                                            System.out.println(salas[j] + " "+funciones[j]);   
-                                        }
-                                        else{
-                                            System.out.println("pelicula no esta en cartelera");
-                                        }
+                                        
+                                        System.out.println(peliculas[buscar(pe,peliculas,numPeliculas)]);
+                                        
                                         
                                     }
                                     break;
@@ -258,7 +261,7 @@ public class Taller0 {
                                         System.out.println("----------------------------------------");
                                         if(peliculas[j] != null){
                                             System.out.println(peliculas[j]);
-                                            System.out.println("----------------HORARIOS----------------");
+                                            System.out.println("----------------HORARIO----------------");
                                             if(salas[j] != 0 && funciones[j]!= null ){
                                                 System.out.println(salas[j] + " "+funciones[j]+"\n");   
                                             } 
@@ -284,7 +287,9 @@ public class Taller0 {
                 }
                 break;
             case "RF2":
-                //falta ingresar a los vectores
+                /*** method to implement the creation of a new user with all the requirements of the workshop 
+                 * 
+                 */   
                 s = new Scanner(System.in);
                 System.out.print("Ingrese nombre: ");
                 String nombre1 = s.nextLine();
@@ -315,22 +320,63 @@ public class Taller0 {
         }
         RF2();
     }
+    public static void rellenoMatriz(int [][] matrizAsientos1M,int [][] matrizAsientos1T,int [][] matrizAsientos2M,int [][] matrizAsientos2T,int [][] matrizAsientos3M,int [][] matrizAsientos3T){
+        for(int p = 0;p<4;p++){
+            for(int q = 0;q<5;q++){
+                matrizAsientos1M [p][q] = 1;
+                matrizAsientos1T [p][q] = 1;
+                matrizAsientos2M [p][q] = 1;
+                matrizAsientos2T [p][q] = 1;
+                matrizAsientos3M [p][q] = 1;
+                matrizAsientos3T [p][q] = 1;  
+            }    
+        }
+        for(int p =0;p<4;p++){
+            for(int q = 25;q<30;q++){
+                matrizAsientos1M [p][q] = 1;
+                matrizAsientos1T [p][q] = 1;
+                matrizAsientos2M [p][q] = 1;
+                matrizAsientos2T [p][q] = 1;
+                matrizAsientos3M [p][q] = 1;
+                matrizAsientos3T [p][q] = 1;   
+            }    
+        }
+        
+    }
+    public static int buscar(String nomP,String[]peliculas,int numPeliculas){
+        int i = 0;
+        while(i<numPeliculas && peliculas[i].equals(nomP)){
+            i++;
+        }
+        if(i== numPeliculas){
+            return -1;
+        }
+        else{
+            return i;
+        }
+    }
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        //txt clientes
+        /*** vector initialization of the customers text file
+         * 
+         */
         String [] nombres = new String [100];
         String [] apellidos = new String [100];
         String [] ruts = new String [100];
         String [] contraseñas = new String [100];
         double [] saldos = new double [100];
         
-        //txt de status
+        /*** vector initialization of the status text file
+         * 
+         */       
         String []estadoPase = new String [100];
         
-        // peliculas
+        /*** vector initialization of the movie text file
+         * 
+         */
         String letras [] = {"A","B","C","D","E","F","G","H","I","J"}; 
         String [] peliculas = new String [100];
         String [] tipoPeliculas = new String [100];
@@ -338,41 +384,23 @@ public class Taller0 {
         int [] salas = new int [100];
         String [] funciones = new String [100];
         
-        //matriz asientos
-        int [][] matrizAsientos = new int [30][10];
+        /*** initialization of arrays for seats
+         * 
+         */
+        int [][] matrizAsientos1M = new int [10][30];
+        int [][] matrizAsientos1T = new int [10][30];
+        int [][] matrizAsientos2M = new int [10][30];
+        int [][] matrizAsientos2T = new int [10][30];
+        int [][] matrizAsientos3M = new int [10][30];
+        int [][] matrizAsientos3T = new int [10][30];
         
         int numClientes =  leerClientes(nombres,apellidos,ruts,contraseñas,saldos);
-        //verificar la carga de clientes
-        for(int i = 0; i<numClientes;i++){
-            System.out.println(nombres[i]+" "+ apellidos[i]);
-        }
-        // verificar la carga de status 
+
         int numStatus = leerStatus(ruts,estadoPase,numClientes);
-        for(int j = 0; j<numStatus;j++){
-            System.out.println(ruts[j]+" "+ estadoPase[j]);
-            
-        }
-        int numPeliculas = leerPeliculas(peliculas,tipoPeliculas,recaudaciones,salas,funciones);
-        System.out.println("----------------FUNCIONES----------------");
-         for(int k = 0; k<numPeliculas;k++){
-            System.out.println(peliculas[k]+" "+ tipoPeliculas[k]+" "+recaudaciones[k]+"  "+salas[k] + " "+funciones[k]+"\n");
-        }
-      
-        //System.out.println(salas[0]+ funciones[0]);
-        //System.out.println(salas[1]+ funciones[1]);
-        //System.out.println(salas[2]+ funciones[2]);
-        //System.out.println(salas[3]+ funciones[3]);
         
-        for(int p = 0;p<5;p++){
-            for(int q = 0;q<4;q++){
-                matrizAsientos[p][q] = 1;   
-            }    
-        }
-        for(int p = 25;p<30;p++){
-            for(int q = 0;q<4;q++){
-                matrizAsientos[p][q] = 1;   
-            }    
-        }
+        int numPeliculas = leerPeliculas(peliculas,tipoPeliculas,recaudaciones,salas,funciones);
+        
+        rellenoMatriz(matrizAsientos1M,matrizAsientos1T,matrizAsientos2M,matrizAsientos2T,matrizAsientos3M,matrizAsientos3T);
         
         
         //for(int t=0; t<30;t++){
